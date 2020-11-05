@@ -7,9 +7,11 @@
         <container type="docker">recetox/xmsanalyzer:2.0.6.1-recetox1</container>
     </requirements>
     <command detect_errors="aggressive"><![CDATA[
+        #set file_str = str('", "').join([str($f) for $f in $files])
+
         Rscript
-            -e 'x <- xMSanalyzer::xMSwrapper.apLCMS.Galaxy(c($files))'
-            -e 'save(x, file = $result)'
+            -e 'x <- xMSanalyzer::xMSwrapper.apLCMS.Galaxy(c("$file_str"))'
+            -e 'save(x, file = "$result")'
     ]]></command>
     <inputs>
         <param name="files" type="data" format="mzdata,mzml,mzxml,netcdf" multiple="true" 
