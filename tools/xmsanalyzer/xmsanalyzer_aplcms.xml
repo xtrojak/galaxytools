@@ -1,5 +1,10 @@
-<tool id="xmsanalyzer_aplcms" name="xMSanalyzer using apLCMS" version="0.1.0" python_template_version="3.5">
+<tool id="xmsanalyzer_aplcms" name="xMSanalyzer using apLCMS" version="@TOOL_VERSION@+galaxy1">
+    <macros>
+        <import>xmsanalyzer_macros.xml</import>
+    </macros>
+
     <requirements>
+        <container type="docker">recetox/xmsanalyzer:2.0.6.1-recetox1</container>
     </requirements>
     <command detect_errors="aggressive"><![CDATA[
         Rscript
