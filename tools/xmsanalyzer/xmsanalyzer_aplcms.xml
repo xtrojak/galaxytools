@@ -8,7 +8,7 @@
     </requirements>
     <command detect_errors="aggressive"><![CDATA[
         Rscript
-            -e 'x <- xMSanalyzer::xMSwrapper.apLCMS.Galaxy($files)'
+            -e 'x <- xMSanalyzer::xMSwrapper.apLCMS.Galaxy(c($files))'
             -e 'save(x, file = $result)'
     ]]></command>
     <inputs>
