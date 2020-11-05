@@ -1,0 +1,20 @@
+<tool id="xmsanalyzer_aplcms" name="xMSanalyzer using apLCMS" version="0.1.0" python_template_version="3.5">
+    <requirements>
+    </requirements>
+    <command detect_errors="aggressive"><![CDATA[
+        Rscript
+            -e 'x <- xMSanalyzer::xMSwrapper.apLCMS.Galaxy($files)'
+            -e 'save(x, file = $result)'
+    ]]></command>
+    <inputs>
+        <param name="files" type="data" format="mzdata,mzml,mzxml,netcdf" multiple="true" 
+        min="3" label="data" help="Mass spectrometry files for peak extraction."
+        />
+    </inputs>
+    <outputs>
+        <data name="result" format="Rda" />
+    </outputs>
+    <help><![CDATA[
+        TODO: Fill in help.
+    ]]></help>
+</tool>
