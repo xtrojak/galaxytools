@@ -26,13 +26,13 @@
             --queries_format "$queries.ext" \
             --metric "$method.similarity_metric" \
             #if $method.similarity_metric in ["CosineGreedy", "CosineHungarian", "ModifiedCosine"]
-                --tolerance "$algorithm.tolerance" \
-                --mz_power "$algorithm.mz_power" \
-                --intensity_power "$algorithm.intensity_power" \
+                --tolerance "$method.algorithm.tolerance" \
+                --mz_power "$method.algorithm.mz_power" \
+                --intensity_power "$method.algorithm.intensity_power" \
             #elif $method.similarity_metric == "ParentMassMatch"
-                 --tolerance "$algorithm.tolerance" \
+                 --tolerance "$method.algorithm.tolerance" \
             #else
-                --similarity_measure "$similarity_measure" \
+                --similarity_measure "$method.algorithm.similarity_measure" \
             #end if
             --output_scores "$similarity_scores" \
             --output_matches "$similarity_matches"
@@ -102,8 +102,8 @@
     </inputs>
 
     <outputs>
-        <data label="$similarity_metric scores of ${on_string}" name="similarity_scores" format="tsv" />
-        <data label="$similarity_metric matches of ${on_string}" name="similarity_matches" format="tsv" />
+        <data label="$method.similarity_metric scores of ${on_string}" name="similarity_scores" format="tsv" />
+        <data label="$method.similarity_metric matches of ${on_string}" name="similarity_matches" format="tsv" />
     </outputs>
 
     <tests>
