@@ -7,6 +7,8 @@ from matchms.similarity import (
     CosineGreedy,
     CosineHungarian,
     ModifiedCosine,
+    ParentMassMatch,
+    FingerprintSimilarity
 )
 from pandas import DataFrame
 
@@ -28,17 +30,18 @@ def convert_precursor_mz(spectrum):
 
 def main(argv):
     parser = argparse.ArgumentParser(description="Compute MSP similarity scores")
-    parser.add_argument("-s", dest="symmetric", action='store_true', help="Computation is symmetric.")
+    parser.add_argument("--symmetric", dest="symmetric", action='store_true', help="Computation is symmetric.")
     parser.add_argument("--ref", dest="references_filename", type=str, help="Path to reference spectra library.")
     parser.add_argument("--ref_format", dest="references_format", type=str, help="Reference spectra library file format.")
-    parser.add_argument("queries_filename", type=str, help="Path to query spectra.")
-    parser.add_argument("queries_format", type=str, help="Query spectra file format.")
-    parser.add_argument("similarity_metric", type=str, help='Metric to use for matching.')
-    parser.add_argument("tolerance", type=float, help="Tolerance to use for peak matching.")
-    parser.add_argument("mz_power", type=float, help="The power to raise mz to in the cosine function.")
-    parser.add_argument("intensity_power", type=float, help="The power to raise intensity to in the cosine function.")
-    parser.add_argument("output_filename_scores", type=str, help="Path where to store the output .tsv scores.")
-    parser.add_argument("output_filename_matches", type=str, help="Path where to store the output .tsv matches.")
+    parser.add_argument("--queries", dest="queries_filename", type=str, help="Path to query spectra.")
+    parser.add_argument("--queries_format", dest="queries_format", type=str, help="Query spectra file format.")
+    parser.add_argument("--metric", dest="similarity_metric", type=str, help='Metric to use for matching.')
+    parser.add_argument("--tolerance", type=float, help="Tolerance to use for peak matching.")
+    parser.add_argument("--mz_power", type=float, help="The power to raise mz to in the cosine function.")
+    parser.add_argument("--intensity_power", type=float, help="The power to raise intensity to in the cosine function.")
+    parser.add_argument("--similarity_measure", type=str, help="Choose similarity measure from 'cosine', 'dice', 'jaccard'.")
+    parser.add_argument("--output_scores", dest="output_filename_scores", type=str, help="Path where to store the output .tsv scores.")
+    parser.add_argument("--output_matches", dest="output_filename_matches", type=str, help="Path where to store the output .tsv matches.")
     args = parser.parse_args()
 
     if args.queries_format == 'msp':
@@ -66,6 +69,11 @@ def main(argv):
         similarity_metric = ModifiedCosine(args.tolerance, args.mz_power, args.intensity_power)
         reference_spectra = list(map(convert_precursor_mz, reference_spectra))
         queries_spectra = list(map(convert_precursor_mz, queries_spectra))
+    elif args.similarity_metric == 'ParentMassMatch':
+        similarity_metric = ParentMassMatch(args.tolerance)
+    elif args.similarity_metric == 'FingerprintSimilarity':
+        similarity_metric = FingerprintSimilarity(args.similarity_measure)
+        # check if fingerprints are present (or set set_empty_scores arg)
     else:
         return -1
 
