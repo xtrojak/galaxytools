@@ -1,0 +1,39 @@
+<tool id="openms_visualisation" name="OpenMS visualisation" version="@TOOL_VERSION@+galaxy0">
+    <description>visualise mzML data</description>
+
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="creator"/>
+    <expand macro="requirements"/>
+
+    <command detect_errors="exit_code"><![CDATA[
+        sh ${openms_visualisation_python_cli}
+    ]]> </command>
+
+    <configfiles>
+        <configfile name="openms_visualisation_python_cli">
+            python3 ${__tool_directory__}/openms_visualisation.py \
+            --input_file "$input_file" \
+            --output_file "$output_file"
+        </configfile>
+    </configfiles>
+
+    <inputs>
+        <param label="Input mzML file" name="input_file" type="data" format="mzdata,mzml,mzxml" />
+    </inputs>
+
+    <outputs>
+        <data label="OpenMS visualisation on ${on_string}" name="output_file" format="html" />
+    </outputs>
+
+    <tests>
+    </tests>
+
+    <help>
+        <![CDATA[
+            TBD
+        ]]>
+    </help>
+
+</tool>

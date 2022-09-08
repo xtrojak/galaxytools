@@ -1,0 +1,12 @@
+owner: recetox
+remote_repository_url: "https://github.com/RECETOX/galaxytools/tree/master/tools/openms_visualisation"
+homepage_url: "https://github.com/RECETOX/galaxytools"
+categories:
+  - Metabolomics
+repositories:
+  msmetaenhancer:
+    description: "OpenMS visualisation for mzML data."
+    include:
+      - openms_visualisation.xml
+      - openms_visualisation.py
+      - macros.xml
